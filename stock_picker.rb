@@ -1,19 +1,17 @@
-def stock_picker(days, arrays = [], result = [], max = 0)
-  days.each_with_index do |day, index|
-    days.each_with_index do |d, i|
-      next unless i <= index
+# frozen_string_literal: true
 
-      arrays.push(day - d)
-      if arrays.max <= max
-        next
-      elsif arrays.max == max
-        result.push(i)
-      else
-        max = arrays.max
-        result = [i, index]
-      end
+def stock_picker(week)
+  profit = 0
+  best_day = [0, 0]
+  week.each_with_index do |buy, index|
+    week[index + 1..].each do |sell|
+      next unless sell - buy > profit
+
+      profit = sell - buy
+      best_day = sell, buy
     end
   end
-  p result
+  best_day
 end
+
 stock_picker([17, 3, 6, 9, 15, 8, 6, 1, 10])
